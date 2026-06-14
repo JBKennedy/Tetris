@@ -1,0 +1,58 @@
+.
+├── bin
+│   └── Debug
+│       └── Tetris
+├── glad.c
+├── include
+│   ├── Color.h
+│   ├── GameState.h
+│   ├── HighScore.h
+│   ├── LayoutConstants.h
+│   ├── Renderer.h
+│   ├── RenderFrame.h
+│   └── Tetromino.h
+├── main.cpp
+├── obj
+│   └── Debug
+│       ├── CBProjects
+│       │   └── Tetris
+│       │       ├── glad.o
+│       │       ├── main.o
+│       │       ├── src
+│       │       │   ├── GameState.o
+│       │       │   ├── HighScore.o
+│       │       │   ├── Renderer.o
+│       │       │   └── Tetromino.o
+│       │       └── stb_image_implementation.o
+│       ├── glad.o
+│       ├── main.o
+│       └── stb_image_implementation.o
+├── shaders
+│   ├── shader.frag.glsl
+│   └── shader.vert.glsl
+├── src
+│   ├── GameState.cpp
+│   ├── HighScore.cpp
+│   ├── Renderer.cpp
+│   └── Tetromino.cpp
+├── stb_image_implementation.cpp
+├── Tetris.cbp
+├── Tetris.depend
+├── Tetris.layout
+├── Tetris.tree.txt
+└── textures
+    ├── ascii_sprites.png
+    ├── detailTex_old.png
+    ├── detailTex.png
+    ├── digits.png
+    ├── ghostTex_old.png
+    ├── ghostTex.png
+    ├── grid_overlay.png
+    ├── labels.png
+    ├── solid_white.png
+    ├── ui_box_old_placeholder.png
+    ├── ui_box.png
+    └── wood_pine.png
+
+11 directories, 43 files
+

@@ -1,0 +1,7 @@
+bin/
+obj/
+build/
+build-windows/
+*.o
+*.depend
+*.layout
