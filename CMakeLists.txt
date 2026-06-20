@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Paths — ThirdPartyLibs lives two directories above the project root,
 # matching your existing layout: ~/ThirdPartyLibs vs ~/CBProjects/Tetris
 # =============================================================================
-set(THIRD_PARTY_DIR "${CMAKE_SOURCE_DIR}/../../ThirdPartyLibs")
+set(THIRD_PARTY_DIR "${CMAKE_SOURCE_DIR}/ThirdPartyLibs")
 set(THIRD_PARTY_INCLUDE "${THIRD_PARTY_DIR}/include")
 set(THIRD_PARTY_LIB     "${THIRD_PARTY_DIR}/lib")
 
