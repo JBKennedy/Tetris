@@ -48,23 +48,25 @@ target_compile_options(Tetris PRIVATE
 # =============================================================================
 if(WIN32)
     target_compile_definitions(Tetris PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+    find_package(glfw3 CONFIG REQUIRED)
     target_link_libraries(Tetris PRIVATE
-        "${THIRD_PARTY_DIR}/lib-windows/libglfw3.a"
+        glfw
         opengl32
         gdi32
         user32
         winmm
     )
 elseif(APPLE)
+    find_package(glfw3 CONFIG REQUIRED)
     target_link_libraries(Tetris PRIVATE
-        "${THIRD_PARTY_LIB}/libglfw3.a"
+        glfw
         "-framework OpenGL"
         "-framework Cocoa"
         "-framework IOKit"
         "-framework CoreVideo"
     )
 else()
-    # Linux
+    # Linux — use bundled library
     target_link_libraries(Tetris PRIVATE
         "${THIRD_PARTY_LIB}/libglfw3.a"
         GL

@@ -41,11 +41,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install GLFW (vcpkg)
-        run: vcpkg install glfw3:x64-windows
+      - name: Install GLFW
+  	run: vcpkg install glfw3:x64-windows-static
 
       - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+  	run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static
 
       - name: Build
         run: cmake --build build --config Release
