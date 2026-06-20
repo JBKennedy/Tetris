@@ -306,7 +306,7 @@ void Renderer::drawHUD( const render_data::UIRenderData& ui )
     m_shader.setBool("useSpriteSheet", true);
     // Inset 1/2 a pixel when sampling spriteSheet to avoid sample bleeding
     const float labelSheetWidth{ 512.0f };
-    const float labelUVInset{ 0.5 / labelSheetWidth };
+    const float labelUVInset{ 0.5f / labelSheetWidth };
 
     // HOLD label — sprite sheet index 3
     m_shader.setVec2("uvOffset", glm::vec2(3.0f / 4.0f + labelUVInset, 0.0f));
@@ -522,9 +522,9 @@ void Renderer::drawPauseOverlay(const render_data::OverlayRenderData& overlay)
     // Character sizes scaled relative to panel width
     // Sprite sheet cell aspect ratio: 24w x 40h
     const float charW{ panelW * 0.045f };   // original 0.045f
-    const float charH{ charW * (40.0f / 24.0f) * 1.8 };
+    const float charH{ charW * (40.0f / 24.0f) * 1.8f };
     const float bigCharW{ charW * 1.6f };
-    const float bigCharH{ bigCharW * (40.0f / 24.0f) * 1.8 };
+    const float bigCharH{ bigCharW * (40.0f / 24.0f) * 1.8f };
 
     // ---- Title ----
     const std::string title{ overlay.gameHasStarted ? "PAUSED" : "TETRIS" };
@@ -624,9 +624,9 @@ void Renderer::drawNameEntryOverlay(const render_data::OverlayRenderData& overla
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     const float charW{ panelW * 0.045f };
-    const float charH{ charW * (40.0f / 24.0f) * 1.8 };
+    const float charH{ charW * (40.0f / 24.0f) * 1.8f };
     const float bigCharW{ charW * 1.3f };
-    const float bigCharH{ bigCharW * (40.0f / 24.0f) * 1.8 };
+    const float bigCharH{ bigCharW * (40.0f / 24.0f) * 1.8f };
 
     // ---- Heading ----
     float headingY{ panelH * 0.5f - bigCharH };

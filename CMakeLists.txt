@@ -47,6 +47,7 @@ target_compile_options(Tetris PRIVATE
 # Linking — platform-specific system libraries
 # =============================================================================
 if(WIN32)
+    target_compile_definitions(Tetris PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
     target_link_libraries(Tetris PRIVATE
         "${THIRD_PARTY_DIR}/lib-windows/libglfw3.a"
         opengl32
