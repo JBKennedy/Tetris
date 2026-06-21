@@ -111,9 +111,10 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/textures"
             "${APP_BUNDLE_DIR}/Resources/textures"
-        # Write Info.plist
-        COMMAND ${CMAKE_COMMAND} -E echo
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleExecutable</key><string>Tetris</string><key>CFBundleIdentifier</key><string>com.yourname.tetris</string><key>CFBundleName</key><string>Tetris</string><key>CFBundleVersion</key><string>1.0</string><key>NSHighResolutionCapable</key><true/></dict></plist>"
+        # Copy Info.plist
+        COMMAND ${CMAKE_COMMAND} -E copy
+            "${CMAKE_SOURCE_DIR}/Info.plist"
+            "${APP_BUNDLE_DIR}/Info.plist"
             > "${APP_BUNDLE_DIR}/Info.plist"
         COMMENT "Assembling Tetris.app bundle"
     )
