@@ -44,18 +44,18 @@ int main(void)
     // glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     // 2. Set Working Directory
-    std::filesystem::path exeDir{ getExeDir() };
-    // Code::Blocks puts the exe in bin/Debug or bin/Release/
-    // relative to the project root where shaders/ and textures/ live
-
     #ifdef ASSETS_NEXT_TO_EXE  // for CMake
-        std::filesystem::current_path(exeDir);
+        #ifdef __APPLE__
+            // Assets are in Contents/Resources/, one level up and across from Contents/MacOS/
+            std::filesystem::current_path(getExeDir() / ".." / "Resources");
+        #else
+            std::filesystem::current_path(getExeDir());
+        #endif
     #else                      // for Code::Blocks
-        std::filesystem::current_path(exeDir / ".." / "..");
+        // Code::Blocks puts the exe in bin/Debug or bin/Release/
+        // relative to the project root where shaders/ and textures/ live
+        std::filesystem::current_path(getExeDir() / ".." / "..");
     #endif
-
-    // REMEMBER TO PLACE shaders/ and textures/ NEXT TO THE exe AND
-    // DROP (/ ".." / "..") WHEN SHIPPING RELEASE BUILD
 
     // 3. Initialize Renderer
     Renderer renderer{ window };

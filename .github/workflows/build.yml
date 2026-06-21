@@ -77,7 +77,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Tetris-macOS
-          path: |
-            build/Tetris
-            build/shaders/
-            build/textures/
+          path: build/Tetris.app/

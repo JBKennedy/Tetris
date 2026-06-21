@@ -92,13 +92,39 @@ target_compile_options(Tetris PRIVATE
 # =============================================================================
 # Copy assets (shaders + textures) next to the executable after build
 # so that getExeDir() / working-directory logic in main.cpp works correctly.
+# On macOS, also assemble a .app bundle.
 # =============================================================================
-add_custom_command(TARGET Tetris POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/shaders"
-        "$<TARGET_FILE_DIR:Tetris>/shaders"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/textures"
-        "$<TARGET_FILE_DIR:Tetris>/textures"
-    COMMENT "Copying shaders and textures to output directory"
-)
+if(APPLE)
+    set(APP_BUNDLE_DIR "$<TARGET_FILE_DIR:Tetris>/Tetris.app/Contents")
+    add_custom_command(TARGET Tetris POST_BUILD
+        # Create bundle structure
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${APP_BUNDLE_DIR}/MacOS"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${APP_BUNDLE_DIR}/Resources"
+        # Copy executable
+        COMMAND ${CMAKE_COMMAND} -E copy
+            "$<TARGET_FILE:Tetris>"
+            "${APP_BUNDLE_DIR}/MacOS/Tetris"
+        # Copy assets into Resources/
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/shaders"
+            "${APP_BUNDLE_DIR}/Resources/shaders"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/textures"
+            "${APP_BUNDLE_DIR}/Resources/textures"
+        # Write Info.plist
+        COMMAND ${CMAKE_COMMAND} -E echo
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>CFBundleExecutable</key><string>Tetris</string><key>CFBundleIdentifier</key><string>com.yourname.tetris</string><key>CFBundleName</key><string>Tetris</string><key>CFBundleVersion</key><string>1.0</string><key>NSHighResolutionCapable</key><true/></dict></plist>"
+            > "${APP_BUNDLE_DIR}/Info.plist"
+        COMMENT "Assembling Tetris.app bundle"
+    )
+else()
+    add_custom_command(TARGET Tetris POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/shaders"
+            "$<TARGET_FILE_DIR:Tetris>/shaders"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/textures"
+            "$<TARGET_FILE_DIR:Tetris>/textures"
+        COMMENT "Copying shaders and textures to output directory"
+    )
+endif()
