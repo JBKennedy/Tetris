@@ -64,8 +64,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install GLFW
-        run: brew install glfw
+      - name: Install GLFW universal binary
+        run: |
+          brew fetch --force --bottle-tag=arm64_sonoma glfw
+          cd /tmp
+          git clone https://github.com/glfw/glfw.git
+          cd glfw
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
+            -DGLFW_BUILD_EXAMPLES=OFF \
+            -DGLFW_BUILD_TESTS=OFF \
+            -DGLFW_BUILD_DOCS=OFF
+          cmake --build build
+          sudo cmake --install build
 
       - name: Configure
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
