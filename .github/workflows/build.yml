@@ -60,13 +60,12 @@ jobs:
 
       - name: Package
         run: |
-          mkdir -p release/Tetris-Windows
-          cp build/Release/Tetris.exe release/Tetris-Windows/
-          cp -r build/Release/shaders release/Tetris-Windows/
-          cp -r build/Release/textures release/Tetris-Windows/
-          cd release
-          zip -r Tetris-Windows.zip Tetris-Windows/
-        shell: bash
+          New-Item -ItemType Directory -Path release\Tetris-Windows
+          Copy-Item build\Release\Tetris.exe release\Tetris-Windows\
+          Copy-Item -Recurse build\Release\shaders release\Tetris-Windows\
+          Copy-Item -Recurse build\Release\textures release\Tetris-Windows\
+          Compress-Archive -Path release\Tetris-Windows -DestinationPath release\Tetris-Windows.zip
+        shell: pwsh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
