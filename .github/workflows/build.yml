@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ main ]
 
@@ -27,14 +29,20 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Package
+        run: |
+          mkdir -p release/Tetris-Linux
+          cp build/Tetris release/Tetris-Linux/
+          cp -r build/shaders release/Tetris-Linux/
+          cp -r build/textures release/Tetris-Linux/
+          cd release
+          zip -r Tetris-Linux.zip Tetris-Linux/
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Tetris-Linux
-          path: |
-            build/Tetris
-            build/shaders/
-            build/textures/
+          path: release/Tetris-Linux.zip
 
   build-windows:
     runs-on: windows-latest
@@ -50,14 +58,21 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
+      - name: Package
+        run: |
+          mkdir -p release/Tetris-Windows
+          cp build/Release/Tetris.exe release/Tetris-Windows/
+          cp -r build/Release/shaders release/Tetris-Windows/
+          cp -r build/Release/textures release/Tetris-Windows/
+          cd release
+          zip -r Tetris-Windows.zip Tetris-Windows/
+        shell: bash
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Tetris-Windows
-          path: |
-            build/Release/Tetris.exe
-            build/Release/shaders/
-            build/Release/textures/
+          path: release/Tetris-Windows.zip
 
   build-macos:
     runs-on: macos-latest
@@ -93,3 +108,23 @@ jobs:
         with:
           name: Tetris-macOS
           path: Tetris-macOS.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/Tetris-Linux/Tetris-Linux.zip
+            artifacts/Tetris-Windows/Tetris-Windows.zip
+            artifacts/Tetris-macOS/Tetris-macOS.zip
