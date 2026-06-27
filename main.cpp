@@ -142,9 +142,15 @@ GLFWwindow* createWindow()
     glfwWindowHint(GLFW_BLUE_BITS,    mode->blueBits);
     glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-    // Passing 'monitor' makes it fullscreen
+    // macOS: exclusive fullscreen swallows trackpad/mouse input via the OS event system.
+    // Borderless windowed fullscreen is the correct approach on MacOS for OpenGL apps.
+    // It's also generally a better choice for windows and linux.
+    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
     GLFWwindow* window{ glfwCreateWindow(mode->width, mode->height,
-                                         "Tetris", monitor, nullptr) };
+                                         "Tetris", nullptr, nullptr) };
+    if (window)
+        glfwSetWindowPos(window, 0, 0); // anchor to top-left of screen
+
     if (window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << '\n';

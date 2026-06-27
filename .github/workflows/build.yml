@@ -100,7 +100,11 @@ jobs:
         run: cmake --build build
 
       - name: Package .app bundle
-        run: zip -r Tetris-macOS.zip build/Tetris.app
+        run: |
+          mkdir -p release
+          cp -r build/Tetris.app release/
+          cd release
+          zip -r ../Tetris-macOS.zip Tetris.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

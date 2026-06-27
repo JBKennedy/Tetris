@@ -115,7 +115,6 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy
             "${CMAKE_SOURCE_DIR}/Info.plist"
             "${APP_BUNDLE_DIR}/Info.plist"
-            > "${APP_BUNDLE_DIR}/Info.plist"
         COMMENT "Assembling Tetris.app bundle"
     )
 else()
